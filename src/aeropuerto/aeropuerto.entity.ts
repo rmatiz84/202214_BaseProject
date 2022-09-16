@@ -20,8 +20,18 @@ export class AeropuertoEntity {
     @Column()
     ciudad: string;
 
-    @ManyToMany(() => AerolineaEntity, aerolinea => aerolinea.aeropuertos)
-    @JoinTable({name:'aeropuerto_aerolinea'})
+    @ManyToMany(() => AerolineaEntity)
+    @JoinTable({
+        name: "aerolinea_aeropuerto",
+        joinColumn: {
+            name: "AeropuertoId",
+            referencedColumnName: "id"
+        },
+        inverseJoinColumn: {
+            name: "AerolineaId",
+            referencedColumnName: "id"
+        }
+    })
     aerolineas: AerolineaEntity[];
 
 }
