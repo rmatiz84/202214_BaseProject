@@ -1,5 +1,5 @@
-import { AerolineaEntity } from "src/aerolinea/aerolinea.entity";
 import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { AerolineaEntity } from '../aerolinea/aerolinea.entity';
 
 
 @Entity()

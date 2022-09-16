@@ -29,7 +29,7 @@ export class AeropuertoAerolineaService {
         return await this.aeropuertoRepository.save(aeropuerto);
     }
 
-    async findaerolineaByaeropuertoIdaerolineaId(codigoAeropuerto: string, codigoAerolinea: string): Promise<AerolineaEntity> {
+    async findAerolineaByAeropuertoIdAerolineaId(codigoAeropuerto: string, codigoAerolinea: string): Promise<AerolineaEntity> {
         const aerolinea: AerolineaEntity = await this.aerolineaRepository.findOne({ where: { id: codigoAerolinea } });
         if (!aerolinea)
             throw new BusinessLogicException("La aerolinea con el ID dado no fue encontrado", BusinessError.NOT_FOUND)
@@ -41,12 +41,12 @@ export class AeropuertoAerolineaService {
         const aeropuertoaerolinea: AerolineaEntity = aeropuerto.aerolineas.find(e => e.id === aerolinea.id);
 
         if (!aeropuertoaerolinea)
-            throw new BusinessLogicException("La aerolinea con el ID dado no se encuentra asociado a El aeropuerto", BusinessError.PRECONDITION_FAILED)
+            throw new BusinessLogicException("La aerolinea con el ID dado no se encuentra asociado al aeropuerto", BusinessError.PRECONDITION_FAILED)
 
         return aeropuertoaerolinea;
     }
 
-    async findaerolineasByaeropuertoId(codigoAeropuerto: string): Promise<AerolineaEntity[]> {
+    async findAerolineasByAeropuertoId(codigoAeropuerto: string): Promise<AerolineaEntity[]> {
         const aeropuerto: AeropuertoEntity = await this.aeropuertoRepository.findOne({ where: { id: codigoAeropuerto }, relations: ["aerolineas"] });
         if (!aeropuerto)
             throw new BusinessLogicException("El aeropuerto con el ID dado no fue encontrado", BusinessError.NOT_FOUND)
@@ -54,7 +54,7 @@ export class AeropuertoAerolineaService {
         return aeropuerto.aerolineas;
     }
 
-    async associateaerolineasaeropuerto(codigoAeropuerto: string, aerolineas: AerolineaEntity[]): Promise<AeropuertoEntity> {
+    async associateAerolineasAeropuerto(codigoAeropuerto: string, aerolineas: AerolineaEntity[]): Promise<AeropuertoEntity> {
         const aeropuerto: AeropuertoEntity = await this.aeropuertoRepository.findOne({where: {id: codigoAeropuerto}, relations: ["aerolineas"]});
     
         if (!aeropuerto)
@@ -82,7 +82,7 @@ export class AeropuertoAerolineaService {
         const aeropuertoaerolinea: AerolineaEntity = aeropuerto.aerolineas.find(e => e.id === aerolinea.id);
     
         if (!aeropuertoaerolinea)
-            throw new BusinessLogicException("La aerolinea con el ID dado no se encuentra asociado a El aeropuerto", BusinessError.PRECONDITION_FAILED)
+            throw new BusinessLogicException("La aerolinea con el ID dado no se encuentra asociado al aeropuerto", BusinessError.PRECONDITION_FAILED)
  
         aeropuerto.aerolineas = aeropuerto.aerolineas.filter(e => e.id !== codigoAerolinea);
         await this.aeropuertoRepository.save(aeropuerto);

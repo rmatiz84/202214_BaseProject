@@ -1,6 +1,6 @@
 
-import { AeropuertoEntity } from "src/aeropuerto/aeropuerto.entity";
 import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { AeropuertoEntity } from '../aeropuerto/aeropuerto.entity';
 
 
 @Entity()
