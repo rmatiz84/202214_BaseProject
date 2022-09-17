@@ -1,0 +1,377 @@
+{
+	"info": {
+		"_postman_id": "387b3bff-8a7a-4e43-bf05-32c1cba9d560",
+		"name": "Aerolineas",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3824375"
+	},
+	"item": [
+		{
+			"name": "Agregar una aerolinea",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json()",
+							"pm.globals.set(\"aerolinea_id\", data.id);",
+							"",
+							"pm.test(\"Codigo de estado es 201\", function () {",
+							"   pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \"nombre\": \"Avianca\",\n   \"descripcion\": \"Avianca S. A., es la Linea Aérea Nacional de Colombia, propiedad de la sociedad británica​​ Avianca Group\",\n   \"fechaFundacion\": \"2000-01-01\",\n   \"paginaWeb\": \"www.avianca.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/airlines",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"airlines"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Agregar una aerolinea invalida",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Codigo de estado es 404\", function () {",
+							"   pm.response.to.have.status(412);",
+							"});",
+							"",
+							"pm.test(\"Obtener mensaje de error esperado\", function () {",
+							"   var data = pm.response.json();",
+							"   pm.expect(data.message).to.eql(\"La fecha de fundación del aeropuerto debe ser inferior a la fecha actual\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \"nombre\": \"Avianca\",\n   \"descripcion\": \"Avianca S. A., es la Linea Aérea Nacional de Colombia, propiedad de la sociedad británica​​ Avianca Group\",\n   \"fechaFundacion\": \"2023-01-01\",\n   \"paginaWeb\": \"www.avianca.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/airlines",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"airlines"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener todas las aerolineas",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Numero de aerolineas > ' + 0, function () {",
+							"   var data = pm.response.json()",
+							"   pm.expect(data.length).to.greaterThan(0)",
+							"});",
+							"",
+							"pm.test(\"Codigo de estado es 200\", function () {",
+							"   pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/airlines",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"airlines"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener una aerolinea",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Codigo de estado es 200\", function () {",
+							"   pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/airlines/{{aerolinea_id}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"airlines",
+						"{{aerolinea_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener una aerolinea invalida",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Codigo de estado es 404\", function () {",
+							"   pm.response.to.have.status(404);",
+							"});",
+							"",
+							"pm.test(\"Obtener mensaje de error esperado\", function () {",
+							"   var data = pm.response.json();",
+							"   pm.expect(data.message).to.eql(\"La aerolinea con el ID dado no fue encontrada\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/airlines/00000000-0000-0000-0000-000000000000",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"airlines",
+						"00000000-0000-0000-0000-000000000000"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar una aerolinea",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Codigo de estado es 200\", function () {",
+							"   pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \"nombre\": \"Latam\",\n   \"descripcion\": \"LATAM Airlines Colombia​​ es una aerolínea comercial de pasajeros colombiana y filial de LATAM Airlines que cubre destinos nacionales e internacionales desde su sede central en el Aeropuerto Internacional El Dorado de Bogotá y desde las principales ciudades de ese país\",\n   \"fechaFundacion\": \"2000-01-01\",\n   \"paginaWeb\": \"www.latamairlines.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/airlines/{{aerolinea_id}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"airlines",
+						"{{aerolinea_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar una aerolinea invalida",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Codigo de estado es 404\", function () {",
+							"   pm.response.to.have.status(404);",
+							"});",
+							"",
+							"pm.test(\"Obtener mensaje de error esperado\", function () {",
+							"   var data = pm.response.json();",
+							"   pm.expect(data.message).to.eql(\"La aerolinea con el ID dado no fue encontrada\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \"nombre\": \"Latam\",\n   \"descripcion\": \"LATAM Airlines Colombia​​ es una aerolínea comercial de pasajeros colombiana y filial de LATAM Airlines que cubre destinos nacionales e internacionales desde su sede central en el Aeropuerto Internacional El Dorado de Bogotá y desde las principales ciudades de ese país\",\n   \"fechaFundacion\": \"2000-01-01\",\n   \"paginaWeb\": \"www.latamairlines.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/airlines/00000000-0000-0000-0000-000000000000",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"airlines",
+						"00000000-0000-0000-0000-000000000000"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar una aerolinea",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Codigo de estado es 204\", function () {",
+							"   pm.response.to.have.status(204);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/airlines/{{aerolinea_id}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"airlines",
+						"{{aerolinea_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar una aerolinea invalida",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Codigo de estado es 404\", function () {",
+							"   pm.response.to.have.status(404);",
+							"});",
+							"",
+							"pm.test(\"Obtener mensaje de error esperado\", function () {",
+							"   var data = pm.response.json();",
+							"   pm.expect(data.message).to.eql(\"La aerolinea con el ID dado no fue encontrada\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/airlines/00000000-0000-0000-0000-000000000000",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"airlines",
+						"00000000-0000-0000-0000-000000000000"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3000/api/v1",
+			"type": "string"
+		}
+	]
+}

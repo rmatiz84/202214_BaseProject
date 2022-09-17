@@ -11,7 +11,8 @@ export class AerolineaDto {
     @IsString()
     @IsNotEmpty()
     descripcion: string;
-
+    
+    @IsString()
     @IsNotEmpty()
     fechaFundacion: Date;
 

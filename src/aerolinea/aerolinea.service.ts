@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AerolineaEntity } from './aerolinea.entity';
 import { Repository } from 'typeorm';
@@ -25,7 +25,12 @@ export class AerolineaService {
     }    
 
     async create(aerolinea: AerolineaEntity): Promise<AerolineaEntity> {
-        if (aerolinea.fechaFundacion > new Date())
+        const date = new Date();
+        Logger.log('fecha actual', date)
+        const dateAerolinea = new Date(aerolinea.fechaFundacion)
+        Logger.log('fecha aero', dateAerolinea)
+        
+        if (dateAerolinea > date)
             throw new BusinessLogicException("La fecha de fundación del aeropuerto debe ser inferior a la fecha actual", BusinessError.PRECONDITION_FAILED);      
         return await this.aerolineaRepository.save(aerolinea);
     }
